@@ -16,8 +16,8 @@ export class RagApiService {
 		return this.http.post<unknown>(`${this.FLASK_API}/ingest/file`, formData);
 	}
 
-	query(payload: Record<string, unknown>): Observable<unknown> {
-		return this.http.post<unknown>(`${this.FLASK_API}/query`, payload);
+	query(question: string): Observable<unknown> {
+		return this.http.post<unknown>(`${this.FLASK_API}/query`, { query: question });
 	}
 
 	getCollections(): Observable<unknown> {

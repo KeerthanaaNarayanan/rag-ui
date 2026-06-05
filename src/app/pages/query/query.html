@@ -1,1 +1,98 @@
-<p>query works!</p>
+<section class="chat">
+	<header class="chat__header">
+		<h2>Query</h2>
+	</header>
+
+	<div class="chat__body">
+		<div #messagesContainer class="chat__messages" aria-live="polite">
+			@for (msg of messages(); track $index) {
+				<article
+					class="chat__message"
+					[class.chat__message--user]="msg.role === 'user'"
+					[class.chat__message--assistant]="msg.role === 'assistant'"
+				>
+					<p>{{ msg.text }}</p>
+
+					@if (msg.role === 'assistant' && msg.sources?.length) {
+						<button
+							type="button"
+							class="chat__sources-toggle"
+							(click)="toggleSources($index)"
+						>
+							@if (isSourcesOpen($index)) {
+								Hide sources
+							} @else {
+								View sources ({{ msg.sources.length }})
+							}
+						</button>
+
+						<section
+							class="chat__sources-panel"
+							[@expand]="sourcePanelState($index)"
+							[class.chat__sources-panel--closed]="!isSourcesOpen($index)"
+						>
+							@for (source of msg.sources; track $index) {
+								<article class="chat__source-item">
+									<div class="chat__source-meta">
+										<strong>{{ source.filename }}</strong>
+										@if (source.page !== null) {
+											<span>p. {{ source.page }}</span>
+										}
+									</div>
+
+									<div class="chat__score-row">
+										<div class="chat__score-track">
+											<div class="chat__score-fill" [style.width.%]="scorePercent(source.score)"></div>
+										</div>
+										<span>{{ scorePercent(source.score) }}%</span>
+									</div>
+
+									<p class="chat__source-text" [class.chat__source-text--expanded]="isChunkExpanded($parent.$index, $index)">
+										{{ source.text }}
+									</p>
+									<button
+										type="button"
+										class="chat__source-expand"
+										(click)="toggleChunk($parent.$index, $index)"
+									>
+										@if (isChunkExpanded($parent.$index, $index)) {
+											Show less
+										} @else {
+											Show more
+										}
+									</button>
+								</article>
+							}
+						</section>
+					}
+				</article>
+			}
+
+			@if (isAssistantTyping()) {
+				<article class="chat__message chat__message--assistant chat__message--typing" aria-label="Assistant is typing">
+					<p class="chat__typing-dots">
+						<span>&middot;</span><span>&middot;</span><span>&middot;</span>
+					</p>
+				</article>
+			}
+		</div>
+
+		<div class="chat__composer">
+			<input
+				type="text"
+				name="queryText"
+				placeholder="Ask a question about your ingested documents"
+				[(ngModel)]="queryText"
+				[disabled]="isAssistantTyping()"
+				(keydown.enter)="sendQuery(); $event.preventDefault()"
+			/>
+			<button
+				type="button"
+				[disabled]="!queryText.trim() || isAssistantTyping()"
+				(click)="sendQuery()"
+			>
+				Send
+			</button>
+		</div>
+	</div>
+</section>
