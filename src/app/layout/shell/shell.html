@@ -1,0 +1,19 @@
+<div class="shell">
+	<aside class="shell__sidebar">
+		<div class="shell__brand">
+			<div class="shell__logo">RG</div>
+			<h1>RAG UI</h1>
+		</div>
+
+		<nav class="shell__nav" aria-label="Primary navigation">
+			<a routerLink="/" class="shell__link">Dashboard</a>
+			<a routerLink="/chat" class="shell__link">Chat</a>
+			<a routerLink="/documents" class="shell__link">Documents</a>
+			<a routerLink="/settings" class="shell__link">Settings</a>
+		</nav>
+	</aside>
+
+	<main class="shell__content">
+		<router-outlet></router-outlet>
+	</main>
+</div>

@@ -1,0 +1,25 @@
+.sidebar-nav {
+	display: grid;
+	gap: 6px;
+}
+
+.sidebar-link {
+	border-left: 3px solid transparent;
+	color: var(--text-muted);
+	display: block;
+	font-family: var(--font-mono);
+	padding: 10px 12px;
+	text-decoration: none;
+	transition: border-color 150ms ease, color 150ms ease;
+}
+
+.sidebar-link:hover,
+.sidebar-link:focus-visible {
+	color: var(--text-primary);
+	outline: none;
+}
+
+.sidebar-link.active {
+	border-left-color: var(--accent);
+	color: var(--accent);
+}
