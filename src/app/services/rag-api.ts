@@ -23,4 +23,8 @@ export class RagApiService {
 	getCollections(): Observable<unknown> {
 		return this.http.get<unknown>(`${this.FLASK_API}/collections`);
 	}
+
+	deleteSource(source: string): Observable<unknown> {
+		return this.http.delete<unknown>(`${this.FLASK_API}/sources/${encodeURIComponent(source)}`);
+	}
 }

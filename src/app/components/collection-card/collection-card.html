@@ -1,0 +1,28 @@
+<article class="collection-card">
+	<div class="collection-card__header">
+		<h3 class="collection-card__title">{{ source }}</h3>
+		@if (chunkCount !== null) {
+			<span class="collection-card__badge">{{ chunkCount }} chunks</span>
+		}
+	</div>
+
+	@if (ingestedAt) {
+		<p class="collection-card__date">
+			Ingested {{ ingestedAt | date:'mediumDate' }}
+		</p>
+	}
+
+	@if (!showConfirm()) {
+		<button type="button" class="collection-card__delete" (click)="startDelete()">
+			Delete
+		</button>
+	} @else {
+		<div class="collection-card__confirm-row" role="alert">
+			<span>Are you sure?</span>
+			<div class="collection-card__confirm-actions">
+				<button type="button" class="collection-card__confirm-delete" (click)="confirmDelete()">Delete</button>
+				<button type="button" class="collection-card__confirm-cancel" (click)="cancelDelete()">Cancel</button>
+			</div>
+		</div>
+	}
+</article>

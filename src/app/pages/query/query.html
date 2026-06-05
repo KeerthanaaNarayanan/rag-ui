@@ -5,7 +5,7 @@
 
 	<div class="chat__body">
 		<div #messagesContainer class="chat__messages" aria-live="polite">
-			@for (msg of messages(); track $index) {
+			@for (msg of messages(); track $index; let messageIndex = $index) {
 				<article
 					class="chat__message"
 					[class.chat__message--user]="msg.role === 'user'"
@@ -47,15 +47,15 @@
 										<span>{{ scorePercent(source.score) }}%</span>
 									</div>
 
-									<p class="chat__source-text" [class.chat__source-text--expanded]="isChunkExpanded($parent.$index, $index)">
+									<p class="chat__source-text" [class.chat__source-text--expanded]="isChunkExpanded(messageIndex, $index)">
 										{{ source.text }}
 									</p>
 									<button
 										type="button"
 										class="chat__source-expand"
-										(click)="toggleChunk($parent.$index, $index)"
+										(click)="toggleChunk(messageIndex, $index)"
 									>
-										@if (isChunkExpanded($parent.$index, $index)) {
+										@if (isChunkExpanded(messageIndex, $index)) {
 											Show less
 										} @else {
 											Show more

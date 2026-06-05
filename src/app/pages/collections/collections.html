@@ -1,1 +1,29 @@
-<p>collections works!</p>
+<section class="collections">
+	<header class="collections__header">
+		<h2>Collections</h2>
+		<p>Browse the indexed collections available to your RAG system.</p>
+	</header>
+
+	@if (isLoading()) {
+		<div class="collections__grid" aria-busy="true" aria-label="Loading collections">
+			@for (_ of [1, 2, 3]; track $index) {
+				<article class="collections__card collections__card--skeleton">
+					<div class="collections__skeleton collections__skeleton--title"></div>
+					<div class="collections__skeleton collections__skeleton--line"></div>
+					<div class="collections__skeleton collections__skeleton--line collections__skeleton--short"></div>
+				</article>
+			}
+		</div>
+	} @else {
+		<div class="collections__grid">
+			@for (collection of collections(); track collection.source) {
+				<app-collection-card
+					[source]="collection.source"
+					[chunkCount]="collection.chunkCount"
+					[ingestedAt]="collection.ingestedAt"
+					(deleted)="removeCollection($event)"
+				></app-collection-card>
+			}
+		</div>
+	}
+</section>

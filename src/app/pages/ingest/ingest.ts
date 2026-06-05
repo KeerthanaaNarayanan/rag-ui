@@ -3,6 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { RagApiService } from '../../services/rag-api';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-ingest',
@@ -20,7 +21,10 @@ export class Ingest {
   sourceName = '';
   rawText = '';
 
-  constructor(private readonly ragApiService: RagApiService) {}
+  constructor(
+    private readonly ragApiService: RagApiService,
+    private readonly toastService: ToastService
+  ) {}
 
   setActiveTab(tab: 'pdf' | 'text'): void {
     this.activeTab.set(tab);
@@ -72,11 +76,15 @@ export class Ingest {
       .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe({
         next: (response) => {
-          this.successChunkCount.set(this.extractChunkCount(response));
+          const chunkCount = this.extractChunkCount(response);
+          this.successChunkCount.set(chunkCount);
           this.errorMessage.set(null);
+          this.toastService.show(`Ingestion complete. Created ${chunkCount} chunks.`, 'success');
         },
         error: (error: HttpErrorResponse) => {
-          this.errorMessage.set(this.mapIngestError(error));
+          const message = this.mapIngestError(error);
+          this.errorMessage.set(message);
+          this.toastService.show(message, 'error');
         },
       });
   }
@@ -99,11 +107,15 @@ export class Ingest {
       .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe({
         next: (response) => {
-          this.successChunkCount.set(this.extractChunkCount(response));
+          const chunkCount = this.extractChunkCount(response);
+          this.successChunkCount.set(chunkCount);
           this.errorMessage.set(null);
+          this.toastService.show(`Ingestion complete. Created ${chunkCount} chunks.`, 'success');
         },
         error: (error: HttpErrorResponse) => {
-          this.errorMessage.set(this.mapIngestError(error));
+          const message = this.mapIngestError(error);
+          this.errorMessage.set(message);
+          this.toastService.show(message, 'error');
         },
       });
   }
