@@ -1,0 +1,160 @@
+.ingest {
+	max-width: 860px;
+}
+
+.ingest__header h2 {
+	margin: 0 0 8px;
+	font-family: var(--font-mono);
+}
+
+.ingest__header p {
+	margin: 0 0 20px;
+	color: var(--text-muted);
+}
+
+.ingest__success {
+	background: rgb(22 114 57 / 20%);
+	border: 1px solid #2ea765;
+	border-radius: 10px;
+	color: #79f5ac;
+	font-family: var(--font-mono);
+	margin-bottom: 16px;
+	padding: 10px 12px;
+}
+
+.ingest__error {
+	background: rgb(161 32 42 / 20%);
+	border: 1px solid #df5a64;
+	border-radius: 10px;
+	color: #ff9aa1;
+	font-family: var(--font-mono);
+	margin-bottom: 16px;
+	padding: 10px 12px;
+}
+
+.ingest__tabs {
+	display: flex;
+	gap: 8px;
+	margin-bottom: 16px;
+}
+
+.ingest__tab {
+	background: transparent;
+	border: 1px solid var(--border);
+	border-radius: 8px;
+	color: var(--text-muted);
+	cursor: pointer;
+	font-family: var(--font-mono);
+	padding: 10px 14px;
+}
+
+.ingest__tab.active {
+	border-color: var(--accent);
+	color: var(--accent);
+}
+
+.ingest__panel {
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: 12px;
+	padding: 16px;
+}
+
+.ingest__dropzone {
+	align-items: center;
+	border: 2px dashed var(--border);
+	border-radius: 12px;
+	cursor: pointer;
+	display: grid;
+	gap: 10px;
+	justify-items: center;
+	padding: 28px 16px;
+	text-align: center;
+	transition: border-color 140ms ease, background-color 140ms ease;
+}
+
+.ingest__dropzone p {
+	color: var(--text-muted);
+	margin: 0;
+}
+
+.ingest__dropzone.drag-active {
+	background: rgb(79 158 255 / 8%);
+	border-color: var(--accent);
+}
+
+.ingest__browse {
+	background: transparent;
+	border: 1px solid var(--border);
+	border-radius: 8px;
+	color: var(--text-primary);
+	cursor: pointer;
+	font-family: var(--font-mono);
+	padding: 8px 12px;
+}
+
+.ingest__filename {
+	color: var(--accent);
+	font-family: var(--font-mono);
+	margin: 12px 0 0;
+}
+
+.ingest__label {
+	display: block;
+	font-family: var(--font-mono);
+	margin-bottom: 8px;
+}
+
+.ingest__form {
+	display: grid;
+	gap: 10px;
+}
+
+.ingest__submit {
+	align-items: center;
+	background: var(--accent);
+	border: 1px solid transparent;
+	border-radius: 8px;
+	color: #0b1a2e;
+	cursor: pointer;
+	display: inline-flex;
+	font-family: var(--font-mono);
+	font-weight: 600;
+	gap: 8px;
+	justify-self: start;
+	margin-top: 6px;
+	padding: 10px 14px;
+}
+
+.ingest__submit:disabled {
+	background: #2d3a4d;
+	color: #90a1b9;
+	cursor: not-allowed;
+}
+
+.ingest__spinner {
+	animation: spin 850ms linear infinite;
+	border: 2px solid rgb(11 26 46 / 25%);
+	border-top-color: #0b1a2e;
+	border-radius: 50%;
+	height: 14px;
+	width: 14px;
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+input,
+textarea {
+	background: #0f0f0f;
+	border: 1px solid var(--border);
+	border-radius: 8px;
+	box-sizing: border-box;
+	color: var(--text-primary);
+	font-family: var(--font-mono);
+	padding: 10px;
+	width: 100%;
+}

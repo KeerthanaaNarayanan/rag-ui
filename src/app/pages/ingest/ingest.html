@@ -1,1 +1,112 @@
-<p>ingest works!</p>
+<section class="ingest">
+	<header class="ingest__header">
+		<h2>Ingest Content</h2>
+		<p>Select a source to add documents to your knowledge base.</p>
+	</header>
+
+	@if (successChunkCount() !== null) {
+		<div class="ingest__success" role="status">
+			Ingestion complete. Created {{ successChunkCount() }} chunks.
+		</div>
+	}
+
+	@if (errorMessage()) {
+		<div class="ingest__error" role="alert">
+			{{ errorMessage() }}
+		</div>
+	}
+
+	<div class="ingest__tabs" role="tablist" aria-label="Ingestion source">
+		<button
+			type="button"
+			class="ingest__tab"
+			[class.active]="activeTab() === 'pdf'"
+			(click)="setActiveTab('pdf')"
+		>
+			Upload PDF
+		</button>
+		<button
+			type="button"
+			class="ingest__tab"
+			[class.active]="activeTab() === 'text'"
+			(click)="setActiveTab('text')"
+		>
+			Paste Text
+		</button>
+	</div>
+
+	@if (activeTab() === 'pdf') {
+		<div class="ingest__panel">
+			<label class="ingest__label">Choose PDF file</label>
+			<input
+				#pdfFileInput
+				hidden
+				type="file"
+				accept="application/pdf"
+				(change)="onFileBrowseChange($event)"
+			/>
+			<div
+				class="ingest__dropzone"
+				[class.drag-active]="isDragActive()"
+				(dragover)="onDragOver($event)"
+				(dragleave)="onDragLeave($event)"
+				(drop)="onDrop($event)"
+				(click)="pdfFileInput.click()"
+			>
+				<p>Drag and drop your PDF here</p>
+				<button type="button" class="ingest__browse">Click to browse</button>
+			</div>
+
+			@if (selectedPdfFile()) {
+				<p class="ingest__filename">Selected: {{ selectedPdfFile()?.name }}</p>
+			}
+
+			<button
+				type="button"
+				class="ingest__submit"
+				[disabled]="!selectedPdfFile() || isLoading()"
+				(click)="submitPdf()"
+			>
+				@if (isLoading()) {
+					<span class="ingest__spinner" aria-hidden="true"></span>
+					Uploading...
+				} @else {
+					Ingest PDF
+				}
+			</button>
+		</div>
+	}
+
+	@if (activeTab() === 'text') {
+		<div class="ingest__panel">
+			<form class="ingest__form" (ngSubmit)="submitRawText()">
+				<label class="ingest__label" for="source-name">Source name</label>
+				<input
+					id="source-name"
+					name="sourceName"
+					type="text"
+					placeholder="e.g. onboarding-notes"
+					[(ngModel)]="sourceName"
+				/>
+
+				<label class="ingest__label" for="raw-text">Paste your text</label>
+				<textarea
+					id="raw-text"
+					name="rawText"
+					rows="10"
+					placeholder="Paste raw text here"
+					[(ngModel)]="rawText"
+				></textarea>
+
+				<button type="submit" class="ingest__submit" [disabled]="!canSubmitRawText() || isLoading()">
+					@if (isLoading()) {
+						<span class="ingest__spinner" aria-hidden="true"></span>
+						Submitting...
+					} @else {
+						Submit Text
+					}
+				</button>
+			</form>
+		</div>
+	}
+</section>
