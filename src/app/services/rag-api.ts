@@ -4,20 +4,20 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class RagApiService {
-	readonly FLASK_API = 'http://localhost:5000';
+	readonly FLASK_API = 'http://localhost:4000';
 
 	constructor(private readonly http: HttpClient) {}
 
 	ingestText(payload: Record<string, unknown>): Observable<unknown> {
-		return this.http.post<unknown>(`${this.FLASK_API}/ingest/text`, payload);
+		return this.http.post<unknown>(`${this.FLASK_API}/ingest`, payload);
 	}
 
 	ingestFile(formData: FormData): Observable<unknown> {
-		return this.http.post<unknown>(`${this.FLASK_API}/ingest/file`, formData);
+		return this.http.post<unknown>(`${this.FLASK_API}/ingest`, formData);
 	}
 
 	query(question: string): Observable<unknown> {
-		return this.http.post<unknown>(`${this.FLASK_API}/query`, { query: question });
+		return this.http.post<unknown>(`${this.FLASK_API}/query`, { question: question });
 	}
 
 	getCollections(): Observable<unknown> {

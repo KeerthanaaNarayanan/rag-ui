@@ -18,4 +18,8 @@ export const routes: Routes = [
 		path: 'collections',
 		loadComponent: () => import('./pages/collections/collections').then((m) => m.Collections),
 	},
+	{
+		path: '**',
+		redirectTo: 'query',
+	},
 ];

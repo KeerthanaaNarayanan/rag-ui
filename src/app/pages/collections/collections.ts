@@ -1,5 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
+import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { RagApiService } from '../../services/rag-api';
 import { CollectionCard } from '../../components/collection-card/collection-card';
@@ -14,7 +15,7 @@ export interface CollectionItem {
 
 @Component({
   selector: 'app-collections',
-  imports: [CollectionCard],
+  imports: [CollectionCard, RouterLink],
   templateUrl: './collections.html',
   styleUrl: './collections.css',
 })
@@ -59,7 +60,7 @@ export class Collections implements OnInit {
 
     if (response && typeof response === 'object') {
       const payload = response as Record<string, unknown>;
-      const candidate = payload['collections'] ?? payload['items'] ?? payload['data'];
+      const candidate = payload['sources'] ?? payload['collections'] ?? payload['items'] ?? payload['data'];
       if (Array.isArray(candidate)) {
         return candidate;
       }
@@ -83,7 +84,12 @@ export class Collections implements OnInit {
     }
 
     const data = item as Record<string, unknown>;
-    const source = this.pickString(data['name']) ?? this.pickString(data['title']) ?? this.pickString(data['collection']) ?? `Collection ${index + 1}`;
+    const source =
+      this.pickString(data['source']) ??
+      this.pickString(data['name']) ??
+      this.pickString(data['title']) ??
+      this.pickString(data['collection']) ??
+      `Collection ${index + 1}`;
     const description = this.pickString(data['description']) ?? this.pickString(data['summary']) ?? null;
     const chunkCount = this.pickNumber(data['document_count']) ?? this.pickNumber(data['documents']) ?? this.pickNumber(data['count']) ?? this.pickNumber(data['chunk_count']) ?? null;
     const ingestedAt = this.pickDate(data['ingestedAt']) ?? this.pickDate(data['ingested_at']) ?? this.pickDate(data['createdAt']) ?? this.pickDate(data['created_at']) ?? null;

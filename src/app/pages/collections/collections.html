@@ -15,15 +15,28 @@
 			}
 		</div>
 	} @else {
-		<div class="collections__grid">
-			@for (collection of collections(); track collection.source) {
-				<app-collection-card
-					[source]="collection.source"
-					[chunkCount]="collection.chunkCount"
-					[ingestedAt]="collection.ingestedAt"
-					(deleted)="removeCollection($event)"
-				></app-collection-card>
-			}
-		</div>
+		@if (collections().length === 0) {
+			<section class="collections__empty" aria-label="No collections yet">
+				<svg viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+					<rect x="16" y="22" width="64" height="48" rx="10" stroke="currentColor" stroke-width="2" />
+					<path d="M16 36H80" stroke="currentColor" stroke-width="2" />
+					<path d="M30 18L36 22H60L66 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+				</svg>
+				<h3>No documents ingested yet</h3>
+				<p>Go to Ingest to add your first source.</p>
+				<a routerLink="/ingest" class="collections__empty-link">Open Ingest</a>
+			</section>
+		} @else {
+			<div class="collections__grid">
+				@for (collection of collections(); track collection.source) {
+					<app-collection-card
+						[source]="collection.source"
+						[chunkCount]="collection.chunkCount"
+						[ingestedAt]="collection.ingestedAt"
+						(deleted)="removeCollection($event)"
+					></app-collection-card>
+				}
+			</div>
+		}
 	}
 </section>
